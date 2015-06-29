@@ -33,7 +33,7 @@ int main (void) {
 
   while (1==1) {
     //waitms(100);
-		if (PIND & 1<<5) {
+		if !(PIND & 1<<5) {
 			PORTB = 0b00000000;
 			PORTA |= 0b00000011;
 		}else if ((state==0) && !(PIND & 1<<2)) {
