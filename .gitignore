@@ -5,3 +5,7 @@
 *.elf
 *.lst
 *.map
+*cache.lib
+*.bak
+*.kicad_pcb-bak
+
