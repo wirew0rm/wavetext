@@ -29,13 +29,14 @@ LIBS:opto
 LIBS:atmel
 LIBS:contrib
 LIBS:valves
+LIBS:wavetext-cache
 EELAYER 27 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
 Title "wavetext"
-Date "30 jun 2015"
+Date "7 jul 2015"
 Rev "0.1"
 Comp "chaos-darmstadt"
 Comment1 ""
@@ -343,23 +344,23 @@ $EndComp
 $Comp
 L OPTO_NPN Q1
 U 1 1 55918904
-P 8650 6400
-F 0 "Q1" H 8800 6450 50  0000 L CNN
-F 1 "OPTO_NPN" H 8800 6300 50  0000 L CNN
-F 2 "~" H 8650 6400 60  0000 C CNN
-F 3 "~" H 8650 6400 60  0000 C CNN
-	1    8650 6400
+P 8550 5350
+F 0 "Q1" H 8700 5400 50  0000 L CNN
+F 1 "OPTO_NPN" H 8700 5250 50  0000 L CNN
+F 2 "~" H 8550 5350 60  0000 C CNN
+F 3 "~" H 8550 5350 60  0000 C CNN
+	1    8550 5350
 	1    0    0    -1  
 $EndComp
 $Comp
 L R R11
 U 1 1 559189EF
-P 8750 4400
-F 0 "R11" V 8830 4400 40  0000 C CNN
-F 1 "R" V 8757 4401 40  0000 C CNN
-F 2 "~" V 8680 4400 30  0000 C CNN
-F 3 "~" H 8750 4400 30  0000 C CNN
-	1    8750 4400
+P 8650 4400
+F 0 "R11" V 8730 4400 40  0000 C CNN
+F 1 "R" V 8657 4401 40  0000 C CNN
+F 2 "~" V 8580 4400 30  0000 C CNN
+F 3 "~" H 8650 4400 30  0000 C CNN
+	1    8650 4400
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -406,11 +407,9 @@ Wire Wire Line
 Wire Wire Line
 	7450 3700 6950 3700
 Wire Wire Line
-	7100 4350 7550 4350
+	7100 4450 7850 4450
 Wire Wire Line
-	7100 4450 7650 4450
-Wire Wire Line
-	7100 4550 7750 4550
+	7100 4550 7950 4550
 Wire Wire Line
 	5750 6050 5750 6750
 Wire Wire Line
@@ -441,16 +440,14 @@ Connection ~ 5150 3800
 Wire Wire Line
 	9150 4050 9150 4650
 Wire Wire Line
-	5750 3900 8750 3900
+	5750 3900 8650 3900
 Connection ~ 5750 3900
 Wire Wire Line
 	1850 6600 9150 6600
 Wire Wire Line
 	9150 6600 9150 5050
 Wire Wire Line
-	8750 4650 8750 6200
-Wire Wire Line
-	7100 4650 7850 4650
+	7100 4650 8050 4650
 Connection ~ 8300 6600
 Wire Wire Line
 	8300 6600 8300 6500
@@ -458,11 +455,6 @@ Wire Wire Line
 	8300 5900 8300 5650
 Wire Wire Line
 	8300 5650 7100 5650
-Wire Wire Line
-	8750 3900 8750 4150
-Wire Wire Line
-	7100 5150 7950 5150
-Connection ~ 8750 6600
 Connection ~ 1000 3800
 Connection ~ 5750 6600
 Wire Wire Line
@@ -473,37 +465,44 @@ Wire Wire Line
 	3150 4650 3150 6600
 Connection ~ 3150 6600
 Wire Wire Line
-	7100 4250 7450 4250
-Wire Wire Line
-	7450 4250 7450 3700
-Wire Wire Line
-	7550 4350 7550 3400
-Wire Wire Line
-	7650 4450 7650 3100
-Wire Wire Line
-	7750 4550 7750 2800
-Wire Wire Line
-	7850 4650 7850 2500
-Wire Wire Line
-	7100 5250 8050 5250
-Wire Wire Line
-	7100 5350 8150 5350
-Wire Wire Line
-	7100 5450 8250 5450
-Wire Wire Line
-	7100 5550 8350 5550
-Wire Wire Line
-	7950 5150 7950 2200
-Wire Wire Line
-	8050 5250 8050 1900
-Wire Wire Line
-	8150 5350 8150 1600
-Wire Wire Line
-	8250 5450 8250 1300
-Wire Wire Line
-	8350 5550 8350 1000
+	7100 4250 7650 4250
 Wire Wire Line
 	7100 4750 9150 4750
 Connection ~ 6050 3700
 Connection ~ 5750 3800
+Wire Wire Line
+	7450 3700 7450 5150
+Wire Wire Line
+	7450 5150 7100 5150
+Wire Wire Line
+	7550 3400 7550 5250
+Wire Wire Line
+	7550 5250 7100 5250
+Wire Wire Line
+	7650 4250 7650 3100
+Wire Wire Line
+	7100 4350 7750 4350
+Wire Wire Line
+	7750 4350 7750 2800
+Wire Wire Line
+	7850 4450 7850 2500
+Wire Wire Line
+	7950 4550 7950 2200
+Wire Wire Line
+	8050 4650 8050 1900
+Connection ~ 8150 4750
+Wire Wire Line
+	8150 1600 8150 4750
+Connection ~ 8250 4850
+Wire Wire Line
+	8250 1300 8250 4850
+Connection ~ 8350 4950
+Wire Wire Line
+	8350 1000 8350 4950
+Wire Wire Line
+	8650 4650 8650 5150
+Wire Wire Line
+	8650 5550 7100 5550
+Wire Wire Line
+	8650 4150 8650 3900
 $EndSCHEMATC
