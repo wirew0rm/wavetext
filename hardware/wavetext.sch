@@ -36,7 +36,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
 Title "wavetext"
-Date "7 jul 2015"
+Date "8 jul 2015"
 Rev "0.1"
 Comp "chaos-darmstadt"
 Comment1 ""
@@ -64,7 +64,7 @@ F 1 "LED" H 6750 900 50  0000 C CNN
 F 2 "~" H 6750 1000 60  0000 C CNN
 F 3 "~" H 6750 1000 60  0000 C CNN
 	1    6750 1000
-	1    0    0    -1  
+	-1   0    0    1   
 $EndComp
 $Comp
 L LED D8
@@ -75,7 +75,7 @@ F 1 "LED" H 6750 1200 50  0000 C CNN
 F 2 "~" H 6750 1300 60  0000 C CNN
 F 3 "~" H 6750 1300 60  0000 C CNN
 	1    6750 1300
-	1    0    0    -1  
+	-1   0    0    1   
 $EndComp
 $Comp
 L LED D7
@@ -86,7 +86,7 @@ F 1 "LED" H 6750 1500 50  0000 C CNN
 F 2 "~" H 6750 1600 60  0000 C CNN
 F 3 "~" H 6750 1600 60  0000 C CNN
 	1    6750 1600
-	1    0    0    -1  
+	-1   0    0    1   
 $EndComp
 $Comp
 L LED D6
@@ -97,7 +97,7 @@ F 1 "LED" H 6750 1800 50  0000 C CNN
 F 2 "~" H 6750 1900 60  0000 C CNN
 F 3 "~" H 6750 1900 60  0000 C CNN
 	1    6750 1900
-	1    0    0    -1  
+	-1   0    0    1   
 $EndComp
 $Comp
 L LED D5
@@ -108,7 +108,7 @@ F 1 "LED" H 6750 2100 50  0000 C CNN
 F 2 "~" H 6750 2200 60  0000 C CNN
 F 3 "~" H 6750 2200 60  0000 C CNN
 	1    6750 2200
-	1    0    0    -1  
+	-1   0    0    1   
 $EndComp
 $Comp
 L LED D3
@@ -119,7 +119,7 @@ F 1 "LED" H 6750 2700 50  0000 C CNN
 F 2 "~" H 6750 2800 60  0000 C CNN
 F 3 "~" H 6750 2800 60  0000 C CNN
 	1    6750 2800
-	1    0    0    -1  
+	-1   0    0    1   
 $EndComp
 $Comp
 L LED D2
@@ -130,7 +130,7 @@ F 1 "LED" H 6750 3000 50  0000 C CNN
 F 2 "~" H 6750 3100 60  0000 C CNN
 F 3 "~" H 6750 3100 60  0000 C CNN
 	1    6750 3100
-	1    0    0    -1  
+	-1   0    0    1   
 $EndComp
 $Comp
 L LED D1
@@ -141,7 +141,7 @@ F 1 "LED" H 6750 3300 50  0000 C CNN
 F 2 "~" H 6750 3400 60  0000 C CNN
 F 3 "~" H 6750 3400 60  0000 C CNN
 	1    6750 3400
-	1    0    0    -1  
+	-1   0    0    1   
 $EndComp
 $Comp
 L LED D0
@@ -152,7 +152,7 @@ F 1 "LED" H 6750 3600 50  0000 C CNN
 F 2 "~" H 6750 3700 60  0000 C CNN
 F 3 "~" H 6750 3700 60  0000 C CNN
 	1    6750 3700
-	1    0    0    -1  
+	-1   0    0    1   
 $EndComp
 $Comp
 L LED D4
@@ -163,7 +163,7 @@ F 1 "LED" H 6750 2400 50  0000 C CNN
 F 2 "~" H 6750 2500 60  0000 C CNN
 F 3 "~" H 6750 2500 60  0000 C CNN
 	1    6750 2500
-	1    0    0    -1  
+	-1   0    0    1   
 $EndComp
 $Comp
 L R R9
@@ -331,36 +331,14 @@ F 3 "~" H 4800 3950 30  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L CONN_5 P0
-U 1 1 55918681
-P 9550 4850
-F 0 "P0" V 9500 4850 50  0000 C CNN
-F 1 "ISP" V 9600 4850 50  0000 C CNN
-F 2 "~" H 9550 4850 60  0000 C CNN
-F 3 "~" H 9550 4850 60  0000 C CNN
-	1    9550 4850
-	1    0    0    -1  
-$EndComp
-$Comp
 L OPTO_NPN Q1
 U 1 1 55918904
-P 8550 5250
-F 0 "Q1" H 8700 5300 50  0000 L CNN
-F 1 "OPTO_NPN" H 8700 5150 50  0000 L CNN
-F 2 "~" H 8550 5250 60  0000 C CNN
-F 3 "~" H 8550 5250 60  0000 C CNN
-	1    8550 5250
-	1    0    0    -1  
-$EndComp
-$Comp
-L R R11
-U 1 1 559189EF
-P 8650 4400
-F 0 "R11" V 8730 4400 40  0000 C CNN
-F 1 "R" V 8657 4401 40  0000 C CNN
-F 2 "~" V 8580 4400 30  0000 C CNN
-F 3 "~" H 8650 4400 30  0000 C CNN
-	1    8650 4400
+P 8650 6100
+F 0 "Q1" H 8800 6150 50  0000 L CNN
+F 1 "OPTO_NPN" H 8800 6000 50  0000 L CNN
+F 2 "~" H 8650 6100 60  0000 C CNN
+F 3 "~" H 8650 6100 60  0000 C CNN
+	1    8650 6100
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -374,12 +352,45 @@ F 3 "~" H 8300 6200 60  0000 C CNN
 	1    8300 6200
 	0    -1   -1   0   
 $EndComp
+$Comp
+L C C2
+U 1 1 559D28E7
+P 2500 4900
+F 0 "C2" H 2500 5000 40  0000 L CNN
+F 1 "C" H 2506 4815 40  0000 L CNN
+F 2 "~" H 2538 4750 30  0000 C CNN
+F 3 "~" H 2500 4900 60  0000 C CNN
+	1    2500 4900
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C1
+U 1 1 559D2900
+P 1300 4900
+F 0 "C1" H 1300 5000 40  0000 L CNN
+F 1 "C" H 1306 4815 40  0000 L CNN
+F 2 "~" H 1338 4750 30  0000 C CNN
+F 3 "~" H 1300 4900 60  0000 C CNN
+	1    1300 4900
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_6 P1
+U 1 1 559D2CC7
+P 9500 4800
+F 0 "P1" V 9450 4800 60  0000 C CNN
+F 1 "CONN_6" V 9550 4800 60  0000 C CNN
+F 2 "~" H 9500 4800 60  0000 C CNN
+F 3 "~" H 9500 4800 60  0000 C CNN
+	1    9500 4800
+	1    0    0    -1  
+$EndComp
 Connection ~ 6050 1300
 Connection ~ 6050 1600
 Connection ~ 6050 1900
 Connection ~ 6050 2200
 Wire Wire Line
-	6050 3800 6050 1000
+	6050 1000 6050 3700
 Connection ~ 6050 2800
 Wire Wire Line
 	6050 2800 6050 3400
@@ -405,17 +416,7 @@ Wire Wire Line
 	5750 6050 5750 6750
 Wire Wire Line
 	4400 3950 4400 4250
-Wire Wire Line
-	4400 4050 9150 4050
-Wire Wire Line
-	7100 4850 9150 4850
-Wire Wire Line
-	7100 4950 9150 4950
 Connection ~ 6050 2500
-Wire Wire Line
-	2250 3800 6050 3800
-Wire Wire Line
-	5750 3800 5750 3950
 Wire Wire Line
 	1000 3800 1450 3800
 Wire Wire Line
@@ -424,40 +425,20 @@ Wire Wire Line
 	4400 3950 4550 3950
 Connection ~ 4400 4050
 Wire Wire Line
-	5150 3950 5050 3950
-Wire Wire Line
-	5150 3800 5150 3950
-Connection ~ 5150 3800
-Wire Wire Line
-	9150 4050 9150 4650
-Wire Wire Line
-	5750 3900 8650 3900
-Connection ~ 5750 3900
-Wire Wire Line
-	9150 6600 9150 5050
+	5050 3950 5750 3950
 Connection ~ 8300 6600
 Wire Wire Line
 	8300 6600 8300 6500
 Connection ~ 1000 3800
 Connection ~ 5750 6600
 Wire Wire Line
-	7100 4750 9150 4750
-Connection ~ 6050 3700
-Connection ~ 5750 3800
-Wire Wire Line
-	8650 3900 8650 4150
-Wire Wire Line
 	7100 5750 7850 5750
 Wire Wire Line
-	7100 5550 8650 5550
-Wire Wire Line
-	8650 5550 8650 5450
+	7100 5550 8750 5550
 Wire Wire Line
 	8300 5900 8300 5650
 Wire Wire Line
 	8300 5650 7100 5650
-Wire Wire Line
-	8650 4650 8650 5050
 Wire Wire Line
 	7100 4650 8350 4650
 Wire Wire Line
@@ -505,8 +486,6 @@ Wire Wire Line
 Wire Wire Line
 	4300 4750 4300 3650
 Wire Wire Line
-	1850 6600 9150 6600
-Wire Wire Line
 	6250 6350 6250 6600
 Connection ~ 6250 6600
 Wire Wire Line
@@ -519,4 +498,66 @@ Wire Wire Line
 	7250 6250 7250 5350
 Wire Wire Line
 	7250 5350 7100 5350
+Wire Wire Line
+	8750 5550 8750 5900
+Wire Wire Line
+	8750 6300 8750 6600
+Connection ~ 8750 6600
+Wire Wire Line
+	2250 3800 5400 3800
+Wire Wire Line
+	5400 3800 5400 3950
+Connection ~ 5400 3950
+Wire Wire Line
+	6050 2200 3300 2200
+Wire Wire Line
+	3300 2200 3300 6600
+Connection ~ 3300 6600
+Wire Wire Line
+	2500 4700 2500 3800
+Connection ~ 2500 3800
+Wire Wire Line
+	1300 4700 1300 3800
+Connection ~ 1300 3800
+Wire Wire Line
+	1300 5100 1300 6600
+Connection ~ 1850 6600
+Wire Wire Line
+	2500 5100 2500 6600
+Connection ~ 2500 6600
+Wire Wire Line
+	8600 3850 8600 4850
+Wire Wire Line
+	8600 3850 5400 3850
+Connection ~ 5400 3850
+Wire Wire Line
+	1300 6600 9150 6600
+Wire Wire Line
+	9150 6600 9150 5050
+Wire Wire Line
+	8900 4050 8900 4950
+Wire Wire Line
+	8900 4950 9150 4950
+Wire Wire Line
+	4400 4050 8900 4050
+Wire Wire Line
+	8600 4850 9150 4850
+Wire Wire Line
+	7100 4750 8650 4750
+Wire Wire Line
+	8650 4750 8650 4550
+Wire Wire Line
+	8650 4550 9150 4550
+Wire Wire Line
+	7100 4850 8500 4850
+Wire Wire Line
+	8500 4850 8500 4650
+Wire Wire Line
+	8500 4650 9150 4650
+Wire Wire Line
+	7100 4950 8750 4950
+Wire Wire Line
+	8750 4950 8750 4750
+Wire Wire Line
+	8750 4750 9150 4750
 $EndSCHEMATC
