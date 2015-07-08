@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2013-may-18)-stable date = Wed 08 Jul 2015 19:06:43 CEST
+Cmp-Mod V01 Created by CvPcb (2013-may-18)-stable date = Wed 08 Jul 2015 23:46:50 CEST
 
 BeginCmp
 TimeStamp = /559D2900;
@@ -18,70 +18,70 @@ BeginCmp
 TimeStamp = /55917CC9;
 Reference = D0;
 ValeurCmp = LED;
-IdModule  = LED-1206;
+IdModule  = LED-0805;
 EndCmp
 
 BeginCmp
 TimeStamp = /55917CBA;
 Reference = D1;
 ValeurCmp = LED;
-IdModule  = LED-1206;
+IdModule  = LED-0805;
 EndCmp
 
 BeginCmp
 TimeStamp = /55917CAB;
 Reference = D2;
 ValeurCmp = LED;
-IdModule  = LED-1206;
+IdModule  = LED-0805;
 EndCmp
 
 BeginCmp
 TimeStamp = /55917C9C;
 Reference = D3;
 ValeurCmp = LED;
-IdModule  = LED-1206;
+IdModule  = LED-0805;
 EndCmp
 
 BeginCmp
 TimeStamp = /55917CD8;
 Reference = D4;
 ValeurCmp = LED;
-IdModule  = LED-1206;
+IdModule  = LED-0805;
 EndCmp
 
 BeginCmp
 TimeStamp = /55917C8D;
 Reference = D5;
 ValeurCmp = LED;
-IdModule  = LED-1206;
+IdModule  = LED-0805;
 EndCmp
 
 BeginCmp
 TimeStamp = /55917C7E;
 Reference = D6;
 ValeurCmp = LED;
-IdModule  = LED-1206;
+IdModule  = LED-0805;
 EndCmp
 
 BeginCmp
 TimeStamp = /55917C6F;
 Reference = D7;
 ValeurCmp = LED;
-IdModule  = LED-1206;
+IdModule  = LED-0805;
 EndCmp
 
 BeginCmp
 TimeStamp = /55917C60;
 Reference = D8;
 ValeurCmp = LED;
-IdModule  = LED-1206;
+IdModule  = LED-0805;
 EndCmp
 
 BeginCmp
 TimeStamp = /55917C4C;
 Reference = D9;
 ValeurCmp = LED;
-IdModule  = LED-1206;
+IdModule  = LED-0805;
 EndCmp
 
 BeginCmp
