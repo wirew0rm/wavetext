@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2013-may-18)-stable date = Mi 08 Jul 2015 16:04:40 CEST
+Cmp-Mod V01 Created by CvPcb (2013-may-18)-stable date = Mi 08 Jul 2015 16:43:07 CEST
 
 BeginCmp
 TimeStamp = /559D2900;
@@ -186,7 +186,7 @@ BeginCmp
 TimeStamp = /559180EC;
 Reference = SW0;
 ValeurCmp = DUAL_SWITCH_INV;
-IdModule  = 3PIN_6mm;
+IdModule  = Wackelschalter;
 EndCmp
 
 BeginCmp
