@@ -37,6 +37,7 @@ for l in LETTERS:
         print("Not a monospace font!")
         exit(1)
 
+out.write("#include <avr/pgmspace.h>\n")
 out.write("#define FONT_CHAR_WIDTH %d\n" % size)
 
 
@@ -72,23 +73,19 @@ bottom = []
 for x in range(mask.size[0]):
     col = 0x00
     for y in range(8):
-        col |= mask.getpixel((x, y))
         col <<= 1
+        col |= mask.getpixel((x, y))
 
     bottom.append(col)
 
 
 # now write top and bottom lines to file
-top_s = "const char *font_top PROGMEM = \"%s\";\n"
-bottom_s = "const char *font_bottom PROGMEM = \"%s\";\n"
+top_s = "const char font_top[] PROGMEM = {%s};\n"
+bottom_s = "const char font_bottom[] PROGMEM = {%s};\n"
 
 
 def bytes_to_c_str(b):
-    s = ""
-    for c in b:
-        s += "\\x%x" % c
-
-    return s
+    return ", ".join((("0x%02x" % c) for c in b))
 
 
 top_s %= bytes_to_c_str(top)

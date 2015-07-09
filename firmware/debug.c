@@ -26,12 +26,11 @@
 
 void waitms(int ms);
 
-/*const char eemem[10][11] EEMEM = 
+const char array[10][11] EEMEM = 
 {
 	   "0123456789:", "CHAOS DA", "WALDECK", "FREAKQUENZ", "TEST TEST",
 		 "Waldeck", "wirew0rm", "Rock on!", "DARMSTADT", "DONT PANIC!"
-};*/
-const uint8_t eemem[] EEMEM = "0123456789:";
+};
 
 
 void setupTimer() {
@@ -97,10 +96,10 @@ int main (void) {
 	setupTimer();
 	setupInts(); // setup the interrupt routines for the wave detection
 
-    _delay_ms(70);
+    _delay_ms(200);
 
 	set_leds(0, 0);
-	/*_delay_ms(50);
+	_delay_ms(50);
 	set_leds(1 << 0, 0);
 	_delay_ms(50);
 	set_leds(1 << 1, 0);
@@ -120,25 +119,19 @@ int main (void) {
 	set_leds(0, 1 << 0);
 	_delay_ms(50);
 	set_leds(0, 1 << 1);
-	_delay_ms(50);*/
+	_delay_ms(50);
 
 
 
-    uint8_t chr = 0;
+    const char *chr = array[0];
+    uint8_t x = 0;
     while(1) {
-        uint8_t c = eeprom_read_byte(&eemem[chr])-0x30;
-
-        for(uint8_t x = 0; x < 5; ++x) {
-            uint8_t bot = pgm_read_byte(&font_bottom[c*FONT_CHAR_WIDTH+x]);
-            uint8_t top = pgm_read_byte(&font_top[(c*FONT_CHAR_WIDTH+x) >> 2]);
-            top >>= (6-(x << 1));
-            set_leds(bot, top);
-            _delay_ms(1);
+        _delay_ms(30);
+        set_leds(x, 0);
+        ++x;
+        if(chr - array[0] >= 10) {
+            chr = array[0];
         }
-
-        ++chr;
-        if(chr == 11)
-            chr = 0;
     }
     /*
 	while(1) {
