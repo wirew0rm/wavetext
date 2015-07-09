@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2013-may-18)-stable date = Wed 08 Jul 2015 23:46:50 CEST
+Cmp-Mod V01 Created by CvPcb (2013-may-18)-stable date = Do 09 Jul 2015 10:18:29 CEST
 
 BeginCmp
 TimeStamp = /559D2900;
@@ -18,70 +18,70 @@ BeginCmp
 TimeStamp = /55917CC9;
 Reference = D0;
 ValeurCmp = LED;
-IdModule  = LED-0805;
+IdModule  = LED;
 EndCmp
 
 BeginCmp
 TimeStamp = /55917CBA;
 Reference = D1;
 ValeurCmp = LED;
-IdModule  = LED-0805;
+IdModule  = LED;
 EndCmp
 
 BeginCmp
 TimeStamp = /55917CAB;
 Reference = D2;
 ValeurCmp = LED;
-IdModule  = LED-0805;
+IdModule  = LED;
 EndCmp
 
 BeginCmp
 TimeStamp = /55917C9C;
 Reference = D3;
 ValeurCmp = LED;
-IdModule  = LED-0805;
+IdModule  = LED;
 EndCmp
 
 BeginCmp
 TimeStamp = /55917CD8;
 Reference = D4;
 ValeurCmp = LED;
-IdModule  = LED-0805;
+IdModule  = LED;
 EndCmp
 
 BeginCmp
 TimeStamp = /55917C8D;
 Reference = D5;
 ValeurCmp = LED;
-IdModule  = LED-0805;
+IdModule  = LED;
 EndCmp
 
 BeginCmp
 TimeStamp = /55917C7E;
 Reference = D6;
 ValeurCmp = LED;
-IdModule  = LED-0805;
+IdModule  = LED;
 EndCmp
 
 BeginCmp
 TimeStamp = /55917C6F;
 Reference = D7;
 ValeurCmp = LED;
-IdModule  = LED-0805;
+IdModule  = LED;
 EndCmp
 
 BeginCmp
 TimeStamp = /55917C60;
 Reference = D8;
 ValeurCmp = LED;
-IdModule  = LED-0805;
+IdModule  = LED;
 EndCmp
 
 BeginCmp
 TimeStamp = /55917C4C;
 Reference = D9;
 ValeurCmp = LED;
-IdModule  = LED-0805;
+IdModule  = LED;
 EndCmp
 
 BeginCmp
@@ -95,14 +95,28 @@ BeginCmp
 TimeStamp = /559D2CC7;
 Reference = P1;
 ValeurCmp = CONN_6;
-IdModule  = PIN_ARRAY-6X1;
+IdModule  = PCBISP;
+EndCmp
+
+BeginCmp
+TimeStamp = /559E2E3F;
+Reference = P2;
+ValeurCmp = CONN_1;
+IdModule  = Powerpad;
+EndCmp
+
+BeginCmp
+TimeStamp = /559E2E4E;
+Reference = P3;
+ValeurCmp = CONN_1;
+IdModule  = Powerpad;
 EndCmp
 
 BeginCmp
 TimeStamp = /55918904;
 Reference = Q1;
 ValeurCmp = OPTO_NPN;
-IdModule  = sot89;
+IdModule  = Fototransistor;
 EndCmp
 
 BeginCmp
@@ -193,7 +207,7 @@ BeginCmp
 TimeStamp = /559199CE;
 Reference = SW1;
 ValeurCmp = SW_PUSH;
-IdModule  = SW_PUSH_SMALL;
+IdModule  = SW_PUSH_SMD;
 EndCmp
 
 BeginCmp

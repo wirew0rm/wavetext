@@ -36,7 +36,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
 Title "wavetext"
-Date "8 jul 2015"
+Date "9 jul 2015"
 Rev "0.1"
 Comp "chaos-darmstadt"
 Comment1 ""
@@ -562,4 +562,26 @@ Wire Wire Line
 	7450 5550 7450 6450
 Wire Wire Line
 	7450 6450 7250 6450
+$Comp
+L CONN_1 P2
+U 1 1 559E2E3F
+P 850 3800
+F 0 "P2" H 930 3800 40  0000 L CNN
+F 1 "CONN_1" H 850 3855 30  0001 C CNN
+F 2 "~" H 850 3800 60  0000 C CNN
+F 3 "~" H 850 3800 60  0000 C CNN
+	1    850  3800
+	-1   0    0    1   
+$EndComp
+$Comp
+L CONN_1 P3
+U 1 1 559E2E4E
+P 1850 6750
+F 0 "P3" H 1930 6750 40  0000 L CNN
+F 1 "CONN_1" H 1850 6805 30  0001 C CNN
+F 2 "~" H 1850 6750 60  0000 C CNN
+F 3 "~" H 1850 6750 60  0000 C CNN
+	1    1850 6750
+	0    1    1    0   
+$EndComp
 $EndSCHEMATC

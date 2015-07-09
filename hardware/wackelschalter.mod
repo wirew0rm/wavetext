@@ -1,9 +1,177 @@
-PCBNEW-LibModule-V1  Wed 08 Jul 2015 19:12:16 CEST
+PCBNEW-LibModule-V1  Do 09 Jul 2015 10:32:07 CEST
 # encoding utf-8
 Units mm
 $INDEX
+Fototransistor
+LED
+PCBISP
+Powerpad
+SW_PUSH_SMD
 Wackelschalter
 $EndINDEX
+$MODULE Fototransistor
+Po 0 0 0 15 559E2B7B 00000000 ~~
+Li Fototransistor
+Sc 0
+AR 
+Op 0 0 0
+T0 2.54 0 1 1 900 0.15 N V 21 N "Fototransistor"
+T1 -2.54 0 1 1 900 0.15 N V 21 N "VAL**"
+DC 0 0 1.27 0 0.15 21
+$PAD
+Sh "1" R 1 7 0 0 0
+Dr 0 0 0
+At SMD N 00888000
+Ne 0 ""
+Po 0 -5
+$EndPAD
+$PAD
+Sh "3" R 1 7 0 0 0
+Dr 0 0 0
+At SMD N 00888000
+Ne 0 ""
+Po 0 5
+$EndPAD
+$EndMODULE Fototransistor
+$MODULE LED
+Po 0 0 0 15 559E29EB 00000000 ~~
+Li LED
+Sc 0
+AR 
+Op 0 0 0
+T0 0 1.27 1 1 0 0.15 N V 21 N "LED"
+T1 0 -1.27 1 1 0 0.15 N V 21 N "VAL**"
+$PAD
+Sh "1" R 1.2 0.9 0 0 0
+Dr 0 0 0
+At SMD N 00888000
+Ne 0 ""
+Po -1.7 0
+$EndPAD
+$PAD
+Sh "2" R 1.2 0.9 0 0 0
+Dr 0 0 0
+At SMD N 00888000
+Ne 0 ""
+Po 1.7 0
+$EndPAD
+$PAD
+Sh "3" R 0.9 1.1 0 0 0
+Dr 0 0 0
+At SMD N 00888000
+Ne 0 ""
+Po 0 0
+$EndPAD
+$EndMODULE LED
+$MODULE PCBISP
+Po 0 0 0 15 559E317D 00000000 ~~
+Li PCBISP
+Sc 0
+AR 
+Op 0 0 0
+T0 -6.35 -6.35 1 1 900 0.15 N V 21 N "PCBISP"
+T1 -6.35 -12.7 1 1 900 0.15 N V 21 N "VAL**"
+$PAD
+Sh "1" R 5.08 2 0 0 0
+Dr 0 0 0
+At SMD N 00888000
+Ne 0 ""
+Po -2.54 -2.54
+$EndPAD
+$PAD
+Sh "2" R 5.08 2 0 0 0
+Dr 0 0 0
+At SMD N 00888000
+Ne 0 ""
+Po -2.54 -5.08
+$EndPAD
+$PAD
+Sh "3" R 5.08 2 0 0 0
+Dr 0 0 0
+At SMD N 00888000
+Ne 0 ""
+Po -2.54 -7.62
+$EndPAD
+$PAD
+Sh "4" R 5.08 2 0 0 0
+Dr 0 0 0
+At SMD N 00888000
+Ne 0 ""
+Po -2.54 -10.16
+$EndPAD
+$PAD
+Sh "5" R 5.08 2 0 0 0
+Dr 0 0 0
+At SMD N 00888000
+Ne 0 ""
+Po -2.54 -12.7
+$EndPAD
+$PAD
+Sh "6" R 5.08 2 0 0 0
+Dr 0 0 0
+At SMD N 00888000
+Ne 0 ""
+Po -2.54 -15.24
+$EndPAD
+$EndMODULE PCBISP
+$MODULE Powerpad
+Po 0 0 0 15 559E2E9A 00000000 ~~
+Li Powerpad
+Sc 0
+AR 
+Op 0 0 0
+T0 0 -1.27 1 1 0 0.15 N V 21 N "Powerpad"
+T1 0 1.27 1 1 0 0.15 N V 21 N "VAL**"
+$PAD
+Sh "1" R 8 4 0 0 0
+Dr 0 0 0
+At SMD N 00888000
+Ne 0 ""
+Po 0 0
+$EndPAD
+$EndMODULE Powerpad
+$MODULE SW_PUSH_SMD
+Po 0 0 0 15 559E2002 00000000 ~~
+Li SW_PUSH_SMD
+Sc 0
+AR 
+Op 0 0 0
+T0 0 -0.762 1.016 1.016 0 0.2032 N V 21 N "SW_PUSH_SMD"
+T1 0 1.016 1.016 1.016 0 0.2032 N V 21 N "Val**"
+DC 0 0 0 -2.54 0.127 21
+DS -3.81 -3.81 3.81 -3.81 0.127 21
+DS 3.81 -3.81 3.81 3.81 0.127 21
+DS 3.81 3.81 -3.81 3.81 0.127 21
+DS -3.81 -3.81 -3.81 3.81 0.127 21
+$PAD
+Sh "1" R 1.55 1.3 0 0 0
+Dr 0 0 0
+At SMD N 00888000
+Ne 0 ""
+Po 3.975 -2.25
+$EndPAD
+$PAD
+Sh "2" R 1.55 1.3 0 0 0
+Dr 0 0 0
+At SMD N 00888000
+Ne 0 ""
+Po 3.975 2.25
+$EndPAD
+$PAD
+Sh "1" R 1.55 1.3 0 0 0
+Dr 0 0 0
+At SMD N 00888000
+Ne 0 ""
+Po -3.975 -2.25
+$EndPAD
+$PAD
+Sh "2" R 1.55 1.3 0 0 0
+Dr 0 0 0
+At SMD N 00888000
+Ne 0 ""
+Po -3.975 2.25
+$EndPAD
+$EndMODULE SW_PUSH_SMD
 $MODULE Wackelschalter
 Po 0 0 0 15 559D59CE 00000000 ~~
 Li Wackelschalter
