@@ -25,20 +25,31 @@
 #define BUTTON !(PIND & 1<<5)
 
 
-void waitms(int ms);
 
 /*const char eemem[10][11] EEMEM = 
 {
 	   "0123456789:", "CHAOS DA", "WALDECK", "FREAKQUENZ", "TEST TEST",
 		 "Waldeck", "wirew0rm", "Rock on!", "DARMSTADT", "DONT PANIC!"
 };*/
-const uint8_t eemem[] EEMEM = "0123456789:";
+const uint8_t eemem[] EEMEM = "Freakquenz";
 
 inline void setupInts() {
 	// Hardware Interrupts
     GIMSK |= 0b00010000;    // pcint2 erlauben
     PCMSK2 = 0b00001000;    // nur auf diesen 2 pins
 	sei();                  // interrupts anschalten
+}
+
+void waitms(int ms) {
+    while(ms--) {
+        _delay_ms(1);
+    }
+}
+
+void waitus(int us) {
+    while(us--) {
+        _delay_us(1);
+    }
 }
 
 void set_leds(uint8_t bot, uint8_t top) {
@@ -83,24 +94,28 @@ ISR(TIMER1_COMPA_vect) {
 ISR(PCINT2_vect) {
     if (PCMSK2 == 0b00001000 && (PIND & 0b00001000)) {
         // forward
+        // reset cursors
+        chr = 0;
+        x = 0;
+
         // read counter
         TCCR1B = 0;                         // disable timer
         TCCR1A = (1<<WGM11);                // ctc modus with OCR1A
-        uint32_t counter = TCNT1L;          // read counter
-        counter |= TCNT1H << 8;
-        counter <<= 5;                      // convert to us
-        counter /= (11*FONT_CHAR_WIDTH);    // divide counter to get update timeout
-        OCR1AH = counter >> 8;
-        OCR1AL = counter & 0xff;
-        //TCNT1H = 0;                         // clear timer
-        //TCNT1L = 0;
+        uint32_t timeout = TCNT1L;          // read counter
+        timeout |= TCNT1H << 8;
+        //timeout <<= 7;                      // convert to microsecs
+        //timeout /= (11*FONT_CHAR_WIDTH);    // divide counter to get update intervall
+        //timeout >>= 4;                      // double the gun, double the fun!
+        timeout = 50;
+        OCR1AH = timeout >> 8;
+        OCR1AL = timeout & 0xff;
+        //OCR1AH = 0;
+        //OCR1AL = 250;
+        TCNT1H = 0;                         // clear timer
+        TCNT1L = 0;
+        waitus(timeout);
         TIMSK |= (1<<OCIE1A);               // enable timer compare interrupt
         TCCR1B = (1<<CS11);                 // re-enable using prescaler 8
-
-        // enable LEDs
-        DDRA = 0b00000011;
-        DDRB = 0b00011111;
-        DDRD = 0b01000011;
 
         // next interrupt on other side
         PCMSK2 = 0b00010000;
@@ -112,13 +127,10 @@ ISR(PCINT2_vect) {
         TCCR1A = 0;             // set to counter mode
         TCNT1H = 0;             // reset value to 0
         TCNT1L = 0;             // ...
-        TCCR1B = (1<<CS12) | (0<<CS10);     // re-enable using prescaler 1024 (gives about 839 ms time to overflow and  128 us resolution)
-
+        TCCR1B = (1<<CS12) | (1<<CS10);     // re-enable using prescaler 1024 (gives about 839 ms time to overflow and  128 us resolution)
 
         // disable LEDs
-        DDRA = 0;
-        DDRB = 0;
-        DDRD = 0;
+        set_leds(0, 0);
 
         // next interrupt on other side
         PCMSK2 = 0b00001000;
@@ -144,7 +156,9 @@ int main (void) {
 	//setupTimer();
 	setupInts(); // setup the interrupt routines for the wave detection
 
-    while(1) {};
+    while(1) {
+        _delay_ms(100);
+    }
 
     /*uint8_t chr = 0;
     while(1) {
@@ -164,3 +178,4 @@ int main (void) {
     }*/
 
 }
+
