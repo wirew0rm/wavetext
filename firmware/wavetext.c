@@ -34,47 +34,11 @@ void waitms(int ms);
 };*/
 const uint8_t eemem[] EEMEM = "0123456789:";
 
-volatile uint16_t us_delay;
-volatile uint8_t chr;
-volatile 
-
-void setupTimer() {
-	//Timer 0 konfigurieren
-	TCCR1A = (1<<WGM01); // CTC Modus
-	TCCR1B |= (1<<CS01); // Prescaler 8
-	// ((8000000/8)/1000) = 125
-	// OCR1A = 125-1;
-
-	// Compare Interrupt erlauben
-	// TIMSK |= (1<<OCIE0A);
-}
-
-void setupInts() {
+inline void setupInts() {
 	// Hardware Interrupts
     GIMSK |= 0b00010000;    // pcint2 erlauben
     PCMSK2 = 0b00001000;    // nur auf diesen 2 pins
 	sei();                  // interrupts anschalten
-
-}
-
-ISR(PCINT2_vect) {
-    if (PCMSK2 == 0b00001000 && (PIND & 0b00001000)) {
-        // forward
-        PCMSK2 = 0b00010000;
-
-        // enable LEDs
-        DDRA = 0b00000011;
-        DDRB = 0b00011111;
-        DDRD = 0b01000011;
-    } else if (PCMSK2 == 0b00010000 && (PIND & 0b00010000)) {
-        // backward
-        PCMSK2 = 0b00001000;
-
-        // disable LEDs
-        DDRA = 0;
-        DDRB = 0;
-        DDRD = 0;
-    }
 }
 
 void set_leds(uint8_t bot, uint8_t top) {
@@ -95,24 +59,94 @@ void set_leds(uint8_t bot, uint8_t top) {
     PORTD = 0b00111000 | d;
 }
 
+volatile uint8_t chr = 0;
+volatile uint8_t x = 0;
+ISR(TIMER1_COMPA_vect) {
+    uint8_t c = eeprom_read_byte(&eemem[chr])-0x30;
+    uint8_t bot = pgm_read_byte(&font_bottom[c*FONT_CHAR_WIDTH+x]);
+    uint8_t top = pgm_read_byte(&font_top[(c*FONT_CHAR_WIDTH+x) >> 2]);
+    top >>= (6-(x << 1));
+    set_leds(bot, top);
+
+    x++;
+    if(x == FONT_CHAR_WIDTH) {
+        x = 0;
+        chr++;
+
+        if(chr == 11) {
+            chr = 0;
+        }
+    }
+}
+
+
+ISR(PCINT2_vect) {
+    if (PCMSK2 == 0b00001000 && (PIND & 0b00001000)) {
+        // forward
+        // read counter
+        TCCR1B = 0;                         // disable timer
+        TCCR1A = (1<<WGM11);                // ctc modus with OCR1A
+        uint32_t counter = TCNT1L;          // read counter
+        counter |= TCNT1H << 8;
+        counter <<= 5;                      // convert to us
+        counter /= (11*FONT_CHAR_WIDTH);    // divide counter to get update timeout
+        OCR1AH = counter >> 8;
+        OCR1AL = counter & 0xff;
+        //TCNT1H = 0;                         // clear timer
+        //TCNT1L = 0;
+        TIMSK |= (1<<OCIE1A);               // enable timer compare interrupt
+        TCCR1B = (1<<CS11);                 // re-enable using prescaler 8
+
+        // enable LEDs
+        DDRA = 0b00000011;
+        DDRB = 0b00011111;
+        DDRD = 0b01000011;
+
+        // next interrupt on other side
+        PCMSK2 = 0b00010000;
+    } else if (PCMSK2 == 0b00010000 && (PIND & 0b00010000)) {
+        // backward
+        // setup timer as counter
+        TCCR1B = 0;             // disable timer
+        TIMSK &= ~(1<<OCIE1A);  // disable timer compare interrupt
+        TCCR1A = 0;             // set to counter mode
+        TCNT1H = 0;             // reset value to 0
+        TCNT1L = 0;             // ...
+        TCCR1B = (1<<CS12) | (0<<CS10);     // re-enable using prescaler 1024 (gives about 839 ms time to overflow and  128 us resolution)
+
+
+        // disable LEDs
+        DDRA = 0;
+        DDRB = 0;
+        DDRD = 0;
+
+        // next interrupt on other side
+        PCMSK2 = 0b00001000;
+    }
+}
+
 
 int main (void) {
 	DDRA  = 0b00000011; // 5pins not accessible,Reset,LED- 0-1
 	DDRB  = 0b00011111; // SCK,MISO,MOSI, 5xLED (1=Out, 0=In)
-	DDRD  = 0b01000011; // not acessible, led, sw1, 2*sensDir, 3x led
-
+	DDRD  = 0b01000011; // not acessible, led, sw1, 2*sensDir, 3x led 
     set_leds(0, 0);
 
-	setupTimer();
-	setupInts(); // setup the interrupt routines for the wave detection
 
     set_leds(0b11111111, 0b00000011);
     _delay_ms(70);
 	set_leds(0, 0);
 
+    // initialize
+    chr = 0;
+    x = 0;
 
+	//setupTimer();
+	setupInts(); // setup the interrupt routines for the wave detection
 
-    uint8_t chr = 0;
+    while(1) {};
+
+    /*uint8_t chr = 0;
     while(1) {
         uint8_t c = eeprom_read_byte(&eemem[chr])-0x30;
 
@@ -127,72 +161,6 @@ int main (void) {
         ++chr;
         if(chr == 11)
             chr = 0;
-    }
-    /*
-	while(1) {
-		_delay_ms(30);
-		uint8_t off = (*chr) - 0x30;
-		uint8_t bot = font_bottom[off*FONT_CHAR_WIDTH+x];
-		uint8_t top = font_top[(off*FONT_CHAR_WIDTH+x) >> 2];
-		top = top >> (6-2*x);
+    }*/
 
-        set_leds(bot, 0);
-
-        x++;
-        if (x == FONT_CHAR_WIDTH) {
-            chr++;
-            x = 0;
-        }
-
-        if (chr - array[0] >= 10) {
-            chr = array[0];
-            x = 0;
-        }
-	}
-
-/*
-  while (1==1) {
-    //waitms(100);
-		if BUTTON {
-			PORTB = 0b00000000;
-			PORTA |= 0b00000011;
-		}else if ((state==0) && !(PIND & 1<<2)) {
-			state = 1;
-			count++;
-			PORTB = ~(count >> 1) & 0b00011111;
-			if (count & 1) {
-				PORTA |= 1 << 1;
-				PORTA &= ~(1 << 0);
-			} else {
-				PORTA |= 1 << 0;
-				PORTA &= ~(1 << 1);
-			}
-		} else if ((state==1) && !(PIND & 1<<3)) {
-			state = 0;
-			count++;
-			PORTB = ~(count >> 1) & 0b00011111;
-			if (count & 1) {
-				PORTA |= 1 << 1;
-				PORTA &= ~(1 << 0);
-			} else {
-				PORTA |= 1 << 0;
-				PORTA &= ~(1 << 1);
-			}
-		} else { 
-			PORTB = ~(count >> 1) & 0b00011111;
-			if (count & 1) {
-				PORTA |= 1 << 1;
-				PORTA &= ~(1 << 0);
-			} else {
-				PORTA |= 1 << 0;
-				PORTA &= ~(1 << 1);
-			}
-		}
-  }*/
 }
-
-void waitms(int ms) {
-  int i;
-  for (i=0;i<ms;i++) _delay_ms(1);
-}
-
