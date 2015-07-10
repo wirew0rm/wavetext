@@ -13,6 +13,7 @@
 #include <avr/io.h>
 #include <avr/eeprom.h>
 #include <avr/interrupt.h>
+//#include <avr/iotn2313a.h>
 
 #define F_CPU 8000000UL  // 8 MHz
 
@@ -33,6 +34,9 @@ void waitms(int ms);
 };*/
 const uint8_t eemem[] EEMEM = "0123456789:";
 
+volatile uint16_t us_delay;
+volatile uint8_t chr;
+volatile 
 
 void setupTimer() {
 	//Timer 0 konfigurieren
@@ -47,21 +51,34 @@ void setupTimer() {
 
 void setupInts() {
 	// Hardware Interrupts
-	GIMSK |= 0b11000000; // Int1 und Int0 aktivieren
-	MCUCR |= (1 << ISC11) + (0 << ISC10) + (1 << ISC01) + (0 << ISC00); //fallende flanke
-	// Timer interrupts
-	// Interrupts global aktivieren
-	sei();
+    GIMSK |= 0b00010000;    // pcint2 erlauben
+    PCMSK2 = 0b00001000;    // nur auf diesen 2 pins
+	sei();                  // interrupts anschalten
 
 }
 
-ISR(INT0_vect) {
+ISR(PCINT2_vect) {
+    if (PCMSK2 == 0b00001000 && (PIND & 0b00001000)) {
+        // forward
+        PCMSK2 = 0b00010000;
 
+        // enable LEDs
+        DDRA = 0b00000011;
+        DDRB = 0b00011111;
+        DDRD = 0b01000011;
+    } else if (PCMSK2 == 0b00010000 && (PIND & 0b00010000)) {
+        // backward
+        PCMSK2 = 0b00001000;
+
+        // disable LEDs
+        DDRA = 0;
+        DDRB = 0;
+        DDRD = 0;
+    }
 }
 
 void set_leds(uint8_t bot, uint8_t top) {
     uint8_t a, b, d;
-    a = top;
     a  = (top & 0b00000001) << 1;
     a |= (top & 0b00000010) >> 1;
     b  = (bot & 0b00000001) << 4;
@@ -75,52 +92,23 @@ void set_leds(uint8_t bot, uint8_t top) {
 
     PORTA = a;
     PORTB = b;
-    PORTD = d;
+    PORTD = 0b00111000 | d;
 }
-
 
 
 int main (void) {
 	DDRA  = 0b00000011; // 5pins not accessible,Reset,LED- 0-1
-	PORTA = 0b00000000;
+	DDRB  = 0b00011111; // SCK,MISO,MOSI, 5xLED (1=Out, 0=In)
+	DDRD  = 0b01000011; // not acessible, led, sw1, 2*sensDir, 3x led
 
-	DDRB  = 0b00011111; // SCK,MISO,MOSI,LED+ 0-4 (1=Out, 0=In)
-	PORTB = 0b00000000;
-
-	DDRD  = 0b01000011; // not acessible, nc, Button, nc, 2*sensDir, 2*receive
-	PORTD = 0b00000000;
-
-    PORTA = 0b00000011;
-    PORTB = 0b00011111;
-    PORTD = 0b01000011;
+    set_leds(0, 0);
 
 	setupTimer();
 	setupInts(); // setup the interrupt routines for the wave detection
 
+    set_leds(0b11111111, 0b00000011);
     _delay_ms(70);
-
 	set_leds(0, 0);
-	/*_delay_ms(50);
-	set_leds(1 << 0, 0);
-	_delay_ms(50);
-	set_leds(1 << 1, 0);
-	_delay_ms(50);
-	set_leds(1 << 2, 0);
-	_delay_ms(50);
-	set_leds(1 << 3, 0);
-	_delay_ms(50);
-	set_leds(1 << 4, 0);
-	_delay_ms(50);
-	set_leds(1 << 5, 0);
-	_delay_ms(50);
-	set_leds(1 << 6, 0);
-	_delay_ms(50);
-	set_leds(1 << 7, 0);
-	_delay_ms(50);
-	set_leds(0, 1 << 0);
-	_delay_ms(50);
-	set_leds(0, 1 << 1);
-	_delay_ms(50);*/
 
 
 
@@ -133,7 +121,7 @@ int main (void) {
             uint8_t top = pgm_read_byte(&font_top[(c*FONT_CHAR_WIDTH+x) >> 2]);
             top >>= (6-(x << 1));
             set_leds(bot, top);
-            _delay_ms(1);
+            _delay_us(250);
         }
 
         ++chr;

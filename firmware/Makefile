@@ -1,6 +1,6 @@
 PRG            = wavetext
 OBJ            = wavetext.o
-MCU_TARGET     = attiny2313
+MCU_TARGET     = attiny2313a
 OPTIMIZE       = -Os
 
 DEFS           =
