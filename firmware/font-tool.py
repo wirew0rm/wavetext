@@ -7,7 +7,7 @@ from PIL import ImageFont, Image
 
 
 PIXEL_HEIGHT = 10
-LETTERS = "0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz"
+LETTERS = "0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz "
 
 
 if len(sys.argv) != 5:
@@ -68,7 +68,7 @@ top = []
 current = 0x00
 cnt = 0
 for x in range(mask.size[0]):
-    col = (zeroone(mask.getpixel((x, 0))) << 1) | (zeroone(mask.getpixel((x, 1))) << 0)
+    col = (zeroone(mask.getpixel((x, 0))) << 0) | (zeroone(mask.getpixel((x, 1))) << 1)
     current |= col << (cnt << 1)
     cnt += 1
 
@@ -86,7 +86,15 @@ for x in range(mask.size[0]):
         col <<= 1
         col |= zeroone(mask.getpixel((x, y)))
 
-    bottom.append(col)
+    # preprocess column
+    b  = (col & 0b00000001) << 4
+    b |= (col & 0b00000010) << 2
+    b |= (col & 0b00000100) << 0
+    b |= (col & 0b00001000) >> 2
+    b |= (col & 0b00010000) >> 4
+    b |= (col & 0b11100000)
+
+    bottom.append(b)
 
 
 # now write top and bottom lines to file

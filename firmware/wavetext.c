@@ -31,7 +31,7 @@
 	   "0123456789:", "CHAOS DA", "WALDECK", "FREAKQUENZ", "TEST TEST",
 		 "Waldeck", "wirew0rm", "Rock on!", "DARMSTADT", "DONT PANIC!"
 };*/
-const uint8_t eemem[] EEMEM = "Freakquenz";
+const uint8_t eemem[] EEMEM = "Freakquenz{Chaos{DA{{{Socke{{{{{{Wirew0rm{{";
 
 inline void setupInts() {
 	// Hardware Interrupts
@@ -54,16 +54,20 @@ void waitus(int us) {
 
 void set_leds(uint8_t bot, uint8_t top) {
     uint8_t a, b, d;
-    a  = (top & 0b00000001) << 1;
-    a |= (top & 0b00000010) >> 1;
-    b  = (bot & 0b00000001) << 4;
-    b |= (bot & 0b00000010) << 2;
-    b |= (bot & 0b00000100) << 0;
-    b |= (bot & 0b00001000) >> 2;
-    b |= (bot & 0b00010000) >> 4;
+    //a  = (top & 0b00000001) << 1;
+    //a |= (top & 0b00000010) >> 1;
+    a = top;
+    b = bot & 0b00011111;
+    //b  = (bot & 0b00000001) << 4;
+    //b |= (bot & 0b00000010) << 2;
+    //b |= (bot & 0b00000100) << 0;
+    //b |= (bot & 0b00001000) >> 2;
+    //b |= (bot & 0b00010000) >> 4;
+    //d  = (bot & 0b00100000) << 1;
+    //d |= (bot & 0b01000000) >> 6;
+    //d |= (bot & 0b10000000) >> 6;
     d  = (bot & 0b00100000) << 1;
-    d |= (bot & 0b01000000) >> 6;
-    d |= (bot & 0b10000000) >> 6;
+    d |= (bot & 0b11000000) >> 6;
 
     PORTA = a;
     PORTB = b;
@@ -72,8 +76,9 @@ void set_leds(uint8_t bot, uint8_t top) {
 
 volatile uint8_t chr = 0;
 volatile uint8_t x = 0;
+volatile uint8_t mode = 0;
 ISR(TIMER1_COMPA_vect) {
-    uint8_t c = eeprom_read_byte(&eemem[chr])-0x30;
+    /*uint8_t c = eeprom_read_byte(&eemem[chr])-0x30;
     uint8_t bot = pgm_read_byte(&font_bottom[c*FONT_CHAR_WIDTH+x]);
     uint8_t top = pgm_read_byte(&font_top[(c*FONT_CHAR_WIDTH+x) >> 2]);
     top >>= (6-(x << 1));
@@ -85,41 +90,55 @@ ISR(TIMER1_COMPA_vect) {
         chr++;
 
         if(chr == 11) {
-            chr = 0;
+            TCCR1B = 0;
+            TIMSK &= ~(1<<OCIE1A);
+            set_leds(0, 0);
+        }
+    }*/
+    x++;
+    if(x == FONT_CHAR_WIDTH) {
+        x = 0;
+        chr++;
+
+        if(chr == 11) {
+            TCCR1B = 0;
+            TIMSK &= ~(1<<OCIE1A);
+            mode = 0;
         }
     }
 }
 
 
 ISR(PCINT2_vect) {
-    if (PCMSK2 == 0b00001000 && (PIND & 0b00001000)) {
+    if (PCMSK2 == 0b00001000 && (PIND & 0b00001000) == 0) {
         // forward
         // reset cursors
         chr = 0;
         x = 0;
+        mode = 0xff;
 
         // read counter
         TCCR1B = 0;                         // disable timer
         TCCR1A = (1<<WGM11);                // ctc modus with OCR1A
         uint32_t timeout = TCNT1L;          // read counter
         timeout |= TCNT1H << 8;
-        //timeout <<= 7;                      // convert to microsecs
-        //timeout /= (11*FONT_CHAR_WIDTH);    // divide counter to get update intervall
+        timeout <<= 7;                      // convert to microsecs
+        timeout /= (11*FONT_CHAR_WIDTH);    // divide counter to get update intervall
         //timeout >>= 4;                      // double the gun, double the fun!
-        timeout = 50;
+        //timeout = 2;
         OCR1AH = timeout >> 8;
         OCR1AL = timeout & 0xff;
         //OCR1AH = 0;
         //OCR1AL = 250;
         TCNT1H = 0;                         // clear timer
         TCNT1L = 0;
-        waitus(timeout);
+        waitus(FONT_CHAR_WIDTH*timeout);
         TIMSK |= (1<<OCIE1A);               // enable timer compare interrupt
         TCCR1B = (1<<CS11);                 // re-enable using prescaler 8
 
         // next interrupt on other side
         PCMSK2 = 0b00010000;
-    } else if (PCMSK2 == 0b00010000 && (PIND & 0b00010000)) {
+    } else if (PCMSK2 == 0b00010000 && (PIND & 0b00010000) == 0) {
         // backward
         // setup timer as counter
         TCCR1B = 0;             // disable timer
@@ -130,7 +149,7 @@ ISR(PCINT2_vect) {
         TCCR1B = (1<<CS12) | (1<<CS10);     // re-enable using prescaler 1024 (gives about 839 ms time to overflow and  128 us resolution)
 
         // disable LEDs
-        set_leds(0, 0);
+        mode = 0;
 
         // next interrupt on other side
         PCMSK2 = 0b00001000;
@@ -157,7 +176,11 @@ int main (void) {
 	setupInts(); // setup the interrupt routines for the wave detection
 
     while(1) {
-        _delay_ms(100);
+        uint8_t c = eeprom_read_byte(&eemem[chr])-0x30;
+        uint8_t bot = pgm_read_byte(&font_bottom[c*FONT_CHAR_WIDTH+x]);
+        uint8_t top = pgm_read_byte(&font_top[(c*FONT_CHAR_WIDTH+x) >> 2]);
+        top >>= (6-(x << 1));
+        set_leds(bot & mode, top & mode);
     }
 
     /*uint8_t chr = 0;
