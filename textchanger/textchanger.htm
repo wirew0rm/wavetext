@@ -1,52 +1,16 @@
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>Wavetext</title>
-		<script type="text/javascript">
-function send_raw(txt, pos, clock) {
-	blink = document.getElementById("blink");
-	if (pos > 11*8) { //check if everything is sent
-		blink.style["background-color"]="black";
-		document.getElementById("send").disabled=false;
-		document.getElementById("text").disabled=false;
-		alert("Finnished Uploading");
-	} else {
-		i = Math.floor(pos / 8);
-		j = pos % 8;
-		if ((txt.charCodeAt(i) & 1<<j) ? !clock : clock) { // XOR
-			blink.style["background-color"]="black";
-		} else {
-			blink.style["background-color"]="white";
-		}
-		if (clock) {
-			setTimeout("send_raw(txt,"+(pos+1).toString()+",false)",50);
-		} else {
-			setTimeout("send_raw(txt,"+pos.toString()+",true)",50);
-		}
-	}
-}
-function sendText() {
-	document.getElementById("send").disabled=true;
-	document.getElementById("text").disabled=true;
-	blink = document.getElementById("blink");
-	blink.style["background-color"]="white";
-	txt = document.getElementById("text").value;
-	txt = (txt + "             ").substring(0,11);
-	send_raw(txt,0,true);
-}
-		</script>
+		<script type="text/javascript" src="jquery.min.js"></script>
+		<script type="text/javascript" src="code.js"></script>
 	</head>
 	<body>
-		<h1> Upload Texts to wavetext </h1>
-		<form action="javascript:sendText()">
-			<table>
-				<tr>
-					<td> <input id="text" name="text" type="text" value="Freakquenz" maxlength=11 /> </td>
-					<td> <button type="button" onclick="sendText()" id="send">Send Text</button></td>
-				</tr>
-				<tr>
-					<td id="blink" colspan=2 style="background-color:black;height:10em"></td>
-				</tr>
-			</table>
-		</form>
+		<h1>Upload Texts to wavetext </h1>
+		<input type="text" value="Freakquenz" maxlength="11" id="wavetext-message" /> <br />
+
+		<button type="button" id="wavetext-send">Send</button>
+
+		<div id="wavetext-blink" style="width:100px;height:100px;background-color:black"></div>
 	</body>
 </html>
