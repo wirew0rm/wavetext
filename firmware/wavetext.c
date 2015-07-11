@@ -49,9 +49,14 @@ void set_leds(uint8_t bot, uint8_t top) {
     PORTD = 0b00111000 | d;
 }
 
+//index of currently active character
 volatile uint8_t chr = 0;
+//xpos in currently active character
 volatile uint8_t x = 0;
+//FIXME: document
 volatile uint8_t mode = 0;
+
+//
 ISR(TIMER1_COMPA_vect) {
     x++;
     if (x == FONT_CHAR_WIDTH) {
@@ -142,4 +147,3 @@ int main(void) {
         set_leds(bot & mode, top & mode);
     }
 }
-
