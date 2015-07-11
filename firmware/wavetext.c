@@ -44,31 +44,23 @@ volatile int8_t x = -1;
 //duraction for one column in counter ticks
 volatile uint8_t columnduration = 0xff;
 
-ISR(TIMER1_COMPA_vect) {
+ISR(TIMER0_COMPA_vect) {
     x++;
     if (x == FONT_CHAR_WIDTH) {
         x = 0;
         chr++;
         if (chr == 11) {
-				    //Disable Timer
-            TCCR1B = 0;
 			      //Disable timer Interrupts
-            TIMSK &= ~(1 << OCIE1A);
+            TIMSK &= ~(1 << OCIE0A);
 						// Disable LEDs
             x = -1;
         }
     }
-		// increment counter
-    uint32_t timer = TCNT1L;          // read counter
-    timer |= OCR1AH << 8;
-		timer += columnduration;
-    OCR1AH = timer >> 8;
-    OCR1AL = timer & 0xff;
 }
 
-ISR(TIMER1_OVF_vect) {
+ISR(TIMER1_COMPA_vect) {
 	// set controller to sleep
-	columnduration = 0xff;
+	TCCR1B = 0;
 }
 
 ISR(PCINT2_vect) {
@@ -76,41 +68,32 @@ ISR(PCINT2_vect) {
         // forward
         // reset cursors
         chr = 0;
-        x = -1;
-
+        x = -14;
         // read counter
         TCCR1B = 0;                         // disable timer
         uint32_t timeout = TCNT1L;          // read counter
         timeout |= TCNT1H << 8;
 				// a full cycle gets measured and in the beginning and the end a char is omitted
         //timeout /= (26 * FONT_CHAR_WIDTH);    // divide counter to get update intervall
-        timeout >>= 7;    // divide counter to get update intervall
-				// TODO: approximate by bit shift, low pass?
+        timeout >>= 8;    // divide counter to get update intervall
         columnduration = timeout & 0xff;
 				// setup timer
+        TCNT0  = 0;
         TCNT1H = 0;                         // clear timer
         TCNT1L = 0;
-				TCCR1A = 0;                         // normal counter mode
 				// set delay time
-				timeout <<= 3;											// 8 columns delay
-        OCR1AH = timeout >> 8;
-        OCR1AL = timeout & 0xff;
+        OCR0A = timeout;
 				// start timer
-        TIMSK |= (1 << OCIE1A);               // enable timer compare interrupt
-        TIMSK |= (1 << TOIE1);               // enable timer overflow interrupt
+        TIMSK |= (1 << OCIE1A);               // enable timer1 compare A interrupt
+        TIMSK |= (1 << OCIE0A);               // enable timer0 compare A interrupt
         TCCR1B = (1 << CS12) | (1 << CS10);     // re-enable using prescaler 1024 (gives about 839 ms time to overflow and 128 us resolution)
-
+        TCCR0B = (1 << CS12) | (1 << CS10);     // re-enable using prescaler 1024 (gives about 839 ms time to overflow and 128 us resolution)
         // next interrupt on other side
         PCMSK2 = 0b00010000;
     } else if (PCMSK2 == 0b00010000 && (PIND & 0b00010000) == 0) {
         // backward
-        // setup timer as counter
         TIMSK &= ~(1 << OCIE1A);  // disable timer compare interrupt
-        TCCR1B = (1 << CS12) | (1 << CS10);     // re-enable using prescaler 1024 (gives about 839 ms time to overflow and 128 us resolution)
-
-        // disable LEDs
-				x = -1;
-
+				x = -1;                   // disable LEDs
         // next interrupt on other side
         PCMSK2 = 0b00001000;
     }
@@ -127,6 +110,12 @@ int main(void) {
     _delay_ms(70);
     setLEDs(0, 0);
 
+		// setup timers
+    OCR1AH = 0b01111111;                // set sleep delay
+    OCR1AL = 0b11111111;
+		TCCR1A = 0;                         // normal counter mode
+		TCCR0A |= 2;                        // timer0 ctc mode
+
     // initialize
     chr = 0;
     x = 0;
@@ -142,6 +131,8 @@ int main(void) {
         uint8_t top = pgm_read_byte(&font_top[(c * FONT_CHAR_WIDTH + x) >> 2]);
         top >>= (6 - (x << 1));
         setLEDs(bot, top);
+			} else {
+				setLEDs(0,0);
 			}
     }
 }
